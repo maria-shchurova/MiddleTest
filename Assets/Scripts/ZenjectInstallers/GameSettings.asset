@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f4730ecd2444f4882328645f0362e8, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  Player:
+    playerSettings:
+      Speed: 5
+      turnSpeed: 5
+  Enemy:
+    enemySettings:
+      ClampMagnitue: 200
+      turnSpeed: 4
+      maxSpeed: 2
+    Spawner:
+      groundRadius: 150
+      startingSpawns: 15
+      maxSpawns: 500
+      maxSpawnTime: 60
+  Installer:
+    PlayerPrefab: {fileID: 7197295885782697052, guid: 74a239274b36e3e449218611e0c8742c,
+      type: 3}
+    EnemyPrefab: {fileID: 5403079181366313823, guid: 4a5f05db6c4959c4abf262512fc5cda4,
+      type: 3}
