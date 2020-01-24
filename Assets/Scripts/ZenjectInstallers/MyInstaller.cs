@@ -24,9 +24,10 @@ public class MyInstaller : MonoInstaller
 	void InstallMisc()
 	{
 		Container.BindInterfacesAndSelfTo<GameControl>().AsSingle();
+		Container.BindInterfacesTo<RestartHandler>().AsSingle();
 	}
 
-		void InstallPlayer()
+	void InstallPlayer()
 	{
 		Container.Bind<PlayerStateFactory>().AsSingle();
 
