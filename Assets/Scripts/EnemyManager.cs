@@ -10,6 +10,7 @@ public class EnemyManager : ITickable, IFixedTickable
 	readonly List<Enemy> _enemies = new List<Enemy>();
 	readonly Settings _settings;
 	readonly Enemy.Factory __enemyFactory;
+	readonly Player _player;
 
 	float _timeToNextSpawn;
 	float _timeIntervalBetweenSpawns;
@@ -18,12 +19,13 @@ public class EnemyManager : ITickable, IFixedTickable
 	[InjectOptional]
 	bool _autoSpawn = true;
 	[Inject]
-	public EnemyManager(Settings settings, Enemy.Factory enemyFactory)
+	public EnemyManager(Settings settings, Enemy.Factory enemyFactory, Player player)
 	{
 		_settings = settings;
 		_timeIntervalBetweenSpawns = _settings.maxSpawnTime / (_settings.maxSpawns - _settings.startingSpawns);
 		_timeToNextSpawn = _timeIntervalBetweenSpawns;
 		__enemyFactory = enemyFactory;
+		_player = player;
 	}
 
 	public IEnumerable<Enemy> Asteroids
@@ -85,10 +87,18 @@ public class EnemyManager : ITickable, IFixedTickable
 	public void SpawnNext()
 	{
 		var enemy = __enemyFactory.Create();
-
-		enemy.transform.position = GetRandomStartPosition();
 		enemy._builder.color = GetRandomColor();
-		_enemies.Add(enemy);
+
+		//Vector3 random = GetRandomStartPosition();
+		//if (!IsPointInPolygon(new Vector2(random.x, random.z), Vertices2D(_player.playerAreaVertices)))  //don't spawn in player's area
+		//{
+			enemy.transform.position = GetRandomStartPosition();
+			_enemies.Add(enemy);
+		//}
+		//else
+		//{
+		//	return;
+		//}
 	}
 
 	Vector3 GetRandomDirection()
@@ -110,6 +120,35 @@ public class EnemyManager : ITickable, IFixedTickable
 	  Random.Range(0f, 1f),
 	  Random.Range(0f, 1f)
 	  );
+	}
+
+	private Vector2[] Vertices2D(List<Vector3> vertices)
+	{
+		List<Vector2> areaVertices2D = new List<Vector2>();
+		foreach (Vector3 vertex in vertices)
+		{
+			areaVertices2D.Add(new Vector2(vertex.x, vertex.z));
+		}
+
+		return areaVertices2D.ToArray();
+	}
+	public static bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
+	{
+		int polygonLength = polygon.Length, i = 0;
+		bool inside = false;
+		float pointX = point.x, pointY = point.y;
+		float startX, startY, endX, endY;
+		Vector2 endPoint = polygon[polygonLength - 1];
+		endX = endPoint.x;
+		endY = endPoint.y;
+		while (i < polygonLength)
+		{
+			startX = endX; startY = endY;
+			endPoint = polygon[i++];
+			endX = endPoint.x; endY = endPoint.y;
+			inside ^= (endY > pointY ^ startY > pointY) && ((pointX - endX) < (pointY - endY) * (startX - endX) / (startY - endY));
+		}
+		return inside;
 	}
 
 	[Serializable]

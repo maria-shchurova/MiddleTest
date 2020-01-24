@@ -1,6 +1,7 @@
 ﻿using System;
 using Zenject;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class Player : MonoBehaviour
 	PlayerStateFactory _stateFactory;
 	PlayerState _state;
 	Settings _settings;
+
+	[SerializeField]
+	public Builder _builder;
+
+	public List<Vector3> playerAreaVertices = new List<Vector3>();
+
 
 	[Inject]
 	public void Construct(PlayerStateFactory stateFactory, Settings settings)
@@ -54,6 +61,10 @@ public class Player : MonoBehaviour
 	public void Update()
 	{
 		_state.Update();
+	}
+	public void FixedUpdate()
+	{
+		playerAreaVertices = _builder.areaVertices;
 	}
 
 	public void ChangeState(PlayerStates state)
