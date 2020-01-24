@@ -2,7 +2,6 @@
 using Zenject;
 using UnityEngine;
 using System.Collections.Generic;
-
 public class Player : MonoBehaviour
 {
 	[SerializeField]
@@ -13,7 +12,7 @@ public class Player : MonoBehaviour
 
 	PlayerStateFactory _stateFactory;
 	PlayerState _state;
-	Settings _settings;
+	public Settings _settings;
 
 	[SerializeField]
 	public Builder _builder;
@@ -29,11 +28,6 @@ public class Player : MonoBehaviour
 	}
 
 	public Quaternion targetRot;
-	public float speed = 1f;
-	public float turnSpeed = 14f;
-
-	public float sensitivity = 300f;
-	public float turnTreshold = 15f;
 	public Vector3 mouseStartPos;
 	public Vector3 curDir;
 
@@ -82,8 +76,10 @@ public class Player : MonoBehaviour
 	[Serializable]
 	public class Settings
 	{
-		public float Speed;
+		public float speed;
 		public float turnSpeed;
+		public float sensitivity;
+		public float turnTreshold;
 	}
 
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 using Zenject;
 using System;
-
 public class MyInstaller : MonoInstaller
 {
 	[Inject]
@@ -45,7 +44,6 @@ public class MyInstaller : MonoInstaller
 		.WithGameObjectName("Enemy")
 		.UnderTransformGroup("Enemies");
 	}
-
 
 	[Serializable]
 	public class GameSettings

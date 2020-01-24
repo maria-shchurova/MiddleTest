@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ModestTree;
 using UnityEngine;
 using Zenject;
 public class Enemy : MonoBehaviour
@@ -72,7 +69,6 @@ public class Enemy : MonoBehaviour
 
 	public void FixedTick()
 	{
-		// Limit speed to a maximum
 		if (_rigidbody)
 		{
 			var speed = _rigidbody.velocity.magnitude;
@@ -93,7 +89,7 @@ public class Enemy : MonoBehaviour
 	[Serializable]
 	public class Settings
 	{
-		public float ClampMagnitue; // equals radius of ground
+		public float ClampMagnitue;
 		public float turnSpeed;
 		public float maxSpeed;
 	}

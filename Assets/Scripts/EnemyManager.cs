@@ -122,35 +122,6 @@ public class EnemyManager : ITickable, IFixedTickable
 	  );
 	}
 
-	private Vector2[] Vertices2D(List<Vector3> vertices)
-	{
-		List<Vector2> areaVertices2D = new List<Vector2>();
-		foreach (Vector3 vertex in vertices)
-		{
-			areaVertices2D.Add(new Vector2(vertex.x, vertex.z));
-		}
-
-		return areaVertices2D.ToArray();
-	}
-	public static bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
-	{
-		int polygonLength = polygon.Length, i = 0;
-		bool inside = false;
-		float pointX = point.x, pointY = point.y;
-		float startX, startY, endX, endY;
-		Vector2 endPoint = polygon[polygonLength - 1];
-		endX = endPoint.x;
-		endY = endPoint.y;
-		while (i < polygonLength)
-		{
-			startX = endX; startY = endY;
-			endPoint = polygon[i++];
-			endX = endPoint.x; endY = endPoint.y;
-			inside ^= (endY > pointY ^ startY > pointY) && ((pointX - endX) < (pointY - endY) * (startX - endX) / (startY - endY));
-		}
-		return inside;
-	}
-
 	[Serializable]
 	public class Settings
 	{

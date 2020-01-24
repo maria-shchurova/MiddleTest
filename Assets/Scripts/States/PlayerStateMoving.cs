@@ -1,20 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
-
 public class PlayerStateMoving : PlayerState
 {
 	readonly SignalBus _signalBus;
-	readonly Camera _mainCamera;
 	readonly Player _player;
 
-	public PlayerStateMoving( Player player,
-		[Inject(Id = "Main")]
-		Camera mainCamera,
+	public PlayerStateMoving(Player player,
+		[Inject]
 		SignalBus signalBus)
 	{
 		_player = player;
-		_mainCamera = mainCamera;
 		_signalBus = signalBus;
 	}
 
@@ -23,18 +18,17 @@ public class PlayerStateMoving : PlayerState
 		Move();
 	}
 
-
 	void Move()
 	{
 
-		_player.rb.AddForce(_player.transform.forward * _player.speed, ForceMode.VelocityChange);
+		_player.rb.AddForce(_player.transform.forward * _player._settings.speed, ForceMode.VelocityChange);
 
 		if (_player.curDir != Vector3.zero)
 		{
 			_player.targetRot = Quaternion.LookRotation(_player.curDir);
 			if (_player.rb.rotation != _player.targetRot)
 			{
-				_player.rb.rotation = Quaternion.RotateTowards(_player.rb.rotation, _player.targetRot, _player.turnSpeed);
+				_player.rb.rotation = Quaternion.RotateTowards(_player.rb.rotation, _player.targetRot, _player._settings.turnSpeed);
 			}
 		}
 
@@ -46,11 +40,11 @@ public class PlayerStateMoving : PlayerState
 		else if (Input.GetMouseButton(0))
 		{
 			float distance = (mousePos - _player.mouseStartPos).magnitude;
-			if (distance > _player.turnTreshold)
+			if (distance > _player._settings.turnTreshold)
 			{
-				if (distance > _player.sensitivity)
+				if (distance > _player._settings.sensitivity)
 				{
-					_player.mouseStartPos = mousePos - (_player.curDir * _player.sensitivity / 2f);
+					_player.mouseStartPos = mousePos - (_player.curDir * _player._settings.sensitivity / 2f);
 				}
 
 				var curDir2D = -(_player.mouseStartPos - mousePos).normalized;
@@ -66,7 +60,6 @@ public class PlayerStateMoving : PlayerState
 	public override void Start()
 	{
 	}
-
 	public override void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.layer == 8)
@@ -74,7 +67,6 @@ public class PlayerStateMoving : PlayerState
 			_signalBus.Fire<PlayerDeadSignal>();
 		}
 	}
-
 	public class Factory : PlaceholderFactory<PlayerStateMoving>
 	{
 	}

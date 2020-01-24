@@ -33,7 +33,6 @@ public class Builder : MonoBehaviour
 
 	public SignalBus _signalBus;
 
-
 	[Inject]
 	public void Construct(SignalBus signalBus)
 	{
@@ -119,7 +118,6 @@ public class Builder : MonoBehaviour
 			trailColls.Clear();
 		}
 	}
-
 	private void InitializeCharacter()
 	{
 		area = new GameObject().AddComponent<CharacterArea>();
